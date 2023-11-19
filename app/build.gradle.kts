@@ -1,3 +1,7 @@
+import java.util.Properties
+import java.io.FileInputStream
+import java.io.InputStreamReader
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +9,7 @@ plugins {
     id("kotlin-parcelize")
     id("kotlin-kapt")
     id("com.google.devtools.ksp")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -42,6 +47,12 @@ android {
         }
         create("production") {
             applicationIdSuffix = ".prod"
+        }
+        all {
+            resValue("string", "project_id", getSecretProperty("PROJECT_ID"))
+            resValue("string", "google_storage_bucket", getSecretProperty("GOOGLE_STORAGE_BUCKET"))
+            resValue("string", "google_api_key", getSecretProperty("GOOGLE_API_KEY"))
+            resValue("string", "google_app_id", getSecretProperty("GOOGLE_APP_ID"))
         }
     }
 
@@ -109,4 +120,22 @@ dependencies {
 
     debugImplementation(Dependencies.Compose.uiTooling)
     debugImplementation(Dependencies.Compose.uiTestManifest)
+}
+
+secrets {
+    propertiesFileName = "secrets.properties"
+    defaultPropertiesFileName = "secrets.defaults.properties"
+}
+
+fun getSecretProperty(key: String): String {
+    val properties = Properties()
+    val secretsFile = File("secrets.properties")
+    if (secretsFile.isFile) {
+        InputStreamReader(FileInputStream(secretsFile), Charsets.UTF_8).use { reader ->
+            properties.load(reader)
+        }
+    } else {
+        error("File from not found")
+    }
+    return properties.getProperty(key)
 }
