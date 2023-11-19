@@ -3,6 +3,7 @@ package com.dosbots.flixme.ui.screens.login
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.widget.Space
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
@@ -60,6 +61,7 @@ import com.dosbots.flixme.R
 import com.dosbots.flixme.ui.theme.FlixmeUi
 import com.dosbots.flixme.ui.theme.LocalDimens
 import com.dosbots.flixme.ui.utils.LightAndDarkModePreview
+import com.dosbots.flixme.ui.utils.sendEmail
 import kotlinx.coroutines.launch
 
 @Composable
@@ -115,6 +117,8 @@ private fun DeveloperLoginScreen(
         }
     }
 
+    val context = LocalContext.current
+
     val emailFocusRequester by remember { mutableStateOf(FocusRequester()) }
     val passwordFocusRequester by remember { mutableStateOf(FocusRequester()) }
     Scaffold(
@@ -150,6 +154,7 @@ private fun DeveloperLoginScreen(
                 },
                 style = FlixmeUi.typography.bodyMedium,
                 textAlign = TextAlign.Center,
+                modifier = Modifier.clickable { context.sendEmail(BUSINESS_EMAIL) }
             )
 
             Spacer(modifier = Modifier.height(FlixmeUi.dimens.xlg))
@@ -249,7 +254,10 @@ private fun DeveloperLoginScreen(
             }
         }
         Event.OnSignInSuccess -> {
-            onEventHandled()
+            LaunchedEffect(Unit) {
+                navigateToHomeScreen()
+                onEventHandled()
+            }
         }
         Event.OnUserDisabled -> {
             LaunchedEffect(Unit) {

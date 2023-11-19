@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Flixme</string>
 
+    <!-- general use -->
+    <string name="send_email_intent_chooser_title">Send email using…</string>
+
+    <!-- user disabled screen -->
     <string name="user_disabled_screen_title">User disabled</string>
     <string name="user_disabled_screen_message">Sadly, your user has been disabled. This can happen for very different reasons. If you consider this is an error, please contact us at</string>
 </resources>
