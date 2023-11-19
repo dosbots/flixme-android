@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_screen_welcome_title">Welcome to Flixme!</string>
+    <string name="login_screen_welcome_message">Please, introduce your developer credentials below. If you do not have one, please contact us at</string>
+    <string name="login_screen_email_placeholder">Email</string>
+    <string name="login_screen_password_placeholder">Password</string>
+    <string name="login_screen_sign_in_btn_text">Sign in</string>
+    <string name="login_screen_email_or_password_empty_error">The email or the password are empty</string>
+    <string name="login_screen_generic_error">Ops! Looks like something went wrong</string>
+</resources>
