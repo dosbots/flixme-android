@@ -7,8 +7,8 @@ sealed interface AuthenticationResult {
         val user: User,
         val isNew: Boolean,
     ) : AuthenticationResult
-    object UserDeleted : AuthenticationResult
-    object UserDisabled : AuthenticationResult
-    object UserTokenExpired : AuthenticationResult
-    object UnknownError : AuthenticationResult
+    data object UserDeleted : AuthenticationResult
+    data object UserDisabled : AuthenticationResult
+    data object UserTokenExpired : AuthenticationResult
+    data object UnknownError : AuthenticationResult
 }

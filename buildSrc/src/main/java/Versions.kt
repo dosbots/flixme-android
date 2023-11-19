@@ -30,9 +30,9 @@ object Versions {
         const val jUnit = "4.13.2"
         const val androidTestJUnitExt = "1.1.5"
         const val espressoCore = "3.5.1"
-        const val mockito = "1.10.19"
-        const val mockitoInline = "2.13.0"
         const val coroutines = "1.7.3"
+        const val mockk = "1.13.8"
+        const val truth = "1.1.4"
     }
     object Moshi {
         const val core = "1.13.0"

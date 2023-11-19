@@ -21,4 +21,17 @@ class UiMessage {
     fun get(context: Context): String {
         return _messageResource?.let { stringRes -> context.getString(stringRes) } ?: _message.orEmpty()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is UiMessage) {
+            return false
+        }
+        return other._message == this._message || other._messageResource == this._messageResource
+    }
+
+    override fun hashCode(): Int {
+        var result = _message?.hashCode() ?: 0
+        result = 31 * result + (_messageResource ?: 0)
+        return result
+    }
 }

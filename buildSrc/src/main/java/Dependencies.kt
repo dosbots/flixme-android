@@ -33,9 +33,9 @@ object Dependencies {
         const val jUnit = "junit:junit:${Versions.Testing.jUnit}"
         const val androidTestJUnitExt = "androidx.test.ext:junit:${Versions.Testing.androidTestJUnitExt}"
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.Testing.espressoCore}"
-        const val mockito = "org.mockito:mockito-core:${Versions.Testing.mockito}"
-        const val mockitoInline = "org.mockito:mockito-inline:${Versions.Testing.mockitoInline}"
+        const val mockk = "io.mockk:mockk:${Versions.Testing.mockk}"
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Testing.coroutines}"
+        const val truth = "com.google.truth:truth:${Versions.Testing.truth}"
     }
     object Moshi {
         const val core = "com.squareup.moshi:moshi:${Versions.Moshi.core}"
