@@ -24,34 +24,31 @@ import com.dosbots.flixme.ui.utils.sendEmail
 
 @Composable
 fun UserDisabledScreen(modifier: Modifier = Modifier) {
-    Surface(
-        color = FlixmeUi.colorScheme.background
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(FlixmeUi.dimens.lg)
     ) {
+        Text(
+            text = stringResource(id = R.string.user_disabled_screen_title),
+            style = FlixmeUi.typography.titleMedium
+        )
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+
         val context = LocalContext.current
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(FlixmeUi.dimens.lg)
-        ) {
-            Text(
-                text = stringResource(id = R.string.user_disabled_screen_title),
-                style = FlixmeUi.typography.titleMedium
-            )
-            Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
-            Text(
-                text = buildAnnotatedString {
-                    append(
-                        text = stringResource(id = R.string.user_disabled_screen_message)
-                    )
-                    append(" ")
-                    withStyle(style = SpanStyle(color = FlixmeUi.colorScheme.primary)) {
-                        append(text = BUSINESS_EMAIL)
-                    }
-                },
-                style = FlixmeUi.typography.bodyMedium,
-                modifier = Modifier.clickable { context.sendEmail(BUSINESS_EMAIL) }
-            )
-        }
+        Text(
+            text = buildAnnotatedString {
+                append(
+                    text = stringResource(id = R.string.user_disabled_screen_message)
+                )
+                append(" ")
+                withStyle(style = SpanStyle(color = FlixmeUi.colorScheme.primary)) {
+                    append(text = BUSINESS_EMAIL)
+                }
+            },
+            style = FlixmeUi.typography.bodyMedium,
+            modifier = Modifier.clickable { context.sendEmail(BUSINESS_EMAIL) }
+        )
     }
 }
 
