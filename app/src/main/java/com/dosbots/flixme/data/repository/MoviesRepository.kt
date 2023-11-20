@@ -17,7 +17,7 @@ interface MoviesRepository {
 
 class MoviesRepositoryImpl @Inject constructor(
     private val moviesDao: MoviesDao,
-    private val predefinedListsRemoteMediator: PopularMoviesRemoteMediator
+    private val popularMoviesRemoteMediator: PopularMoviesRemoteMediator
 ) : MoviesRepository {
 
     @OptIn(ExperimentalPagingApi::class)
@@ -27,7 +27,7 @@ class MoviesRepositoryImpl @Inject constructor(
                 pageSize = POPULAR_MOVIES_PAGE_SIZE,
                 prefetchDistance = POPULAR_MOVIES_PREFETCH_DISTANCE
             ),
-            remoteMediator = predefinedListsRemoteMediator
+            remoteMediator = popularMoviesRemoteMediator
         ) {
             moviesDao.getMoviesInPredefinedListPaginated(PredefinedListItem.POPULAR_MOVIES_LIST)
         }.flow
