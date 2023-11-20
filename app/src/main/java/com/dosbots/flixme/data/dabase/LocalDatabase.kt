@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.User
-import com.dosbots.flixme.data.models.database.PopularMovie
+import com.dosbots.flixme.data.models.database.ApiMovieListItem
 
 @Database(
-    entities = [User::class, Movie::class, PopularMovie::class],
+    entities = [User::class, Movie::class, ApiMovieListItem::class],
     version = 1,
     exportSchema = false
 )

@@ -37,11 +37,6 @@ object Dependencies {
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.Testing.coroutines}"
         const val truth = "com.google.truth:truth:${Versions.Testing.truth}"
     }
-    object Moshi {
-        const val core = "com.squareup.moshi:moshi:${Versions.Moshi.core}"
-        const val kotlin = "com.squareup.moshi:moshi-kotlin:${Versions.Moshi.core}"
-        const val adapters = "com.squareup.moshi:moshi-adapters:${Versions.Moshi.core}"
-    }
     object PlayServices {
         const val auth = "com.google.android.gms:play-services-auth:${Versions.PlayServices.auth}"
     }
@@ -49,6 +44,7 @@ object Dependencies {
         const val room = "androidx.room:room-runtime:${Versions.Room.room}"
         const val roomKtx = "androidx.room:room-ktx:${Versions.Room.room}"
         const val compiler = "androidx.room:room-compiler:${Versions.Room.room}"
+        const val paging = "androidx.room:room-paging:${Versions.Room.room}"
     }
     object Retrofit {
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.Retrofit.retrofit}"
@@ -57,6 +53,6 @@ object Dependencies {
     }
     object Paging {
         const val paging = "androidx.paging:paging-runtime:${Versions.Paging.paging}"
-        const val pagingCompose = "androidx.paging:paging-runtime:${Versions.Paging.pagingCompose}"
+        const val pagingCompose = "androidx.paging:paging-compose:${Versions.Paging.pagingCompose}"
     }
 }

@@ -107,6 +107,7 @@ dependencies {
 
     implementation(Dependencies.Room.room)
     implementation(Dependencies.Room.roomKtx)
+    implementation(Dependencies.Room.paging)
     ksp(Dependencies.Room.compiler)
 
     implementation(Dependencies.Retrofit.retrofit)
