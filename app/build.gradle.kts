@@ -69,6 +69,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
@@ -107,6 +108,13 @@ dependencies {
     implementation(Dependencies.Room.room)
     implementation(Dependencies.Room.roomKtx)
     ksp(Dependencies.Room.compiler)
+
+    implementation(Dependencies.Retrofit.retrofit)
+    implementation(Dependencies.Retrofit.moshiConverter)
+    debugImplementation(Dependencies.Retrofit.loggingInterceptor)
+
+    implementation(Dependencies.Paging.paging)
+    implementation(Dependencies.Paging.pagingCompose)
 
     testImplementation(Dependencies.Testing.jUnit)
     testImplementation(Dependencies.Testing.mockk)

@@ -50,4 +50,13 @@ object Dependencies {
         const val roomKtx = "androidx.room:room-ktx:${Versions.Room.room}"
         const val compiler = "androidx.room:room-compiler:${Versions.Room.room}"
     }
+    object Retrofit {
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.Retrofit.retrofit}"
+        const val moshiConverter = "com.squareup.retrofit2:converter-moshi:${Versions.Retrofit.retrofit}"
+        const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.Retrofit.loggingInterceptor}"
+    }
+    object Paging {
+        const val paging = "androidx.paging:paging-runtime:${Versions.Paging.paging}"
+        const val pagingCompose = "androidx.paging:paging-runtime:${Versions.Paging.pagingCompose}"
+    }
 }
