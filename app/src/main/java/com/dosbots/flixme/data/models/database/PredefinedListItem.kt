@@ -6,10 +6,13 @@ import com.dosbots.flixme.data.models.Movie
 
 /**
  * Represents an item in a movie list created by the API.
- * These lists doesn't belong to the user, they are created by TMDB
+ *
+ * These lists don't belong to the user, they are created by TMDB, and
+ * are a predefined set of movies that every user can see, categorized by
+ * a certain criteria: popular, most rated, upcoming, etc.
  */
 @Entity(
-    tableName = "apiMovieListItems",
+    tableName = "predefinedListsItems",
     foreignKeys = [
         ForeignKey(
             entity = Movie::class,
@@ -20,7 +23,7 @@ import com.dosbots.flixme.data.models.Movie
     ],
     primaryKeys = ["movieId", "listName"]
 )
-data class ApiMovieListItem(
+data class PredefinedListItem(
     val movieId: Int,
     val listName: String,
     val page: Int,

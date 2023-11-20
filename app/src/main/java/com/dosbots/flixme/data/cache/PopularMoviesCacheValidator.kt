@@ -1,18 +1,17 @@
 package com.dosbots.flixme.data.cache
 
 import com.dosbots.flixme.data.dabase.MoviesDao
-import com.dosbots.flixme.data.models.database.ApiMovieListItem
-import javax.inject.Inject
+import com.dosbots.flixme.data.models.database.PredefinedListItem
 
-class PopularMoviesCacheValidator @Inject constructor(
+class PopularMoviesCacheValidator(
     private val moviesDao: MoviesDao
 ) : CacheValidator() {
 
     override suspend fun getLastSyncDate(): Long? {
-        return moviesDao.getOldestApiMovieListItem(ApiMovieListItem.POPULAR_MOVIES_LIST)?.createdAt
+        return moviesDao.getOldestApiMovieListItem(PredefinedListItem.POPULAR_MOVIES_LIST)?.createdAt
     }
 
     override suspend fun invalidate() {
-        moviesDao.deleteAllMoviesFromApiList(ApiMovieListItem.POPULAR_MOVIES_LIST)
+        moviesDao.deleteAllMoviesFromApiList(PredefinedListItem.POPULAR_MOVIES_LIST)
     }
 }
