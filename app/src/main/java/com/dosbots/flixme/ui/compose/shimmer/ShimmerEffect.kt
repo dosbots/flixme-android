@@ -19,26 +19,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.dosbots.flixme.ui.theme.FlixmeUi
+import com.dosbots.flixme.ui.theme.Gray100
 import com.dosbots.flixme.ui.utils.LightAndDarkModePreview
 
-fun Modifier.shimmer(): Modifier = composed {
+fun Modifier.shimmer(color: Color? = null): Modifier = composed {
+    val shimmerColor = color ?: Gray100
     val shimmerColors = listOf(
-        FlixmeUi.colorScheme.surface.copy(alpha = 0.6f),
-        FlixmeUi.colorScheme.surface.copy(alpha = 0.2f),
-        FlixmeUi.colorScheme.surface.copy(alpha = 0.6f),
+        shimmerColor.copy(alpha = 0.6f),
+        shimmerColor.copy(alpha = 0.2f),
+        shimmerColor.copy(alpha = 0.6f),
     )
     var size by remember {
         mutableStateOf(IntSize.Zero)
     }
     val transition = rememberInfiniteTransition(label = "shimmerEffect")
     val startOffsetX by transition.animateFloat(
-        initialValue = -offsetMultiplier * size.width.toFloat(),
-        targetValue = offsetMultiplier * size.width.toFloat(),
+        initialValue = -OFFSET_MULTIPLIER * size.width.toFloat(),
+        targetValue = OFFSET_MULTIPLIER * size.width.toFloat(),
         animationSpec = infiniteRepeatable(
             animation = tween(
                 durationMillis = 2000,
@@ -57,7 +59,7 @@ fun Modifier.shimmer(): Modifier = composed {
     ).onGloballyPositioned { size = it.size }
 }
 
-private const val offsetMultiplier = 1.5f
+private const val OFFSET_MULTIPLIER = 1.5f
 
 @LightAndDarkModePreview
 @Preview(showBackground = true)

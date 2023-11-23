@@ -5,15 +5,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import com.dosbots.flixme.ui.theme.FlixmeUi
 
 @Composable
 fun ShimmerBoxLoading(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color? = null
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(FlixmeUi.dimens.md))
-            .shimmer()
+            .shimmer(color = color)
     )
 }
