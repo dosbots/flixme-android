@@ -12,9 +12,6 @@ interface MoviesApi {
     @GET("movie/popular")
     suspend fun getPopularMovies(@Query("page") page: Int): Response<PaginatedResponse<Movie>>
 
-    @GET("movie/{movie_id}")
-    suspend fun getMovieById(@Path("movie_id") movieId: Int): Response<Movie>
-
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(@Query("page") page: Int): Response<PaginatedResponse<Movie>>
 }
