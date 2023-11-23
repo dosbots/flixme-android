@@ -7,6 +7,9 @@ object Versions {
         const val minSdk = 26
         const val targetSdk = 34
     }
+
+    const val coil = "2.5.0"
+
     object AndroidX {
         const val core = "1.9.0"
         const val lifecycle = "2.6.2"

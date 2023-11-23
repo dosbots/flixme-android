@@ -1,4 +1,7 @@
 object Dependencies {
+
+    const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
+
     object AndroidX {
         const val core = "androidx.core:core-ktx:${Versions.AndroidX.core}"
         const val lifecycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.lifecycle}"

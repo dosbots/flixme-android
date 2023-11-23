@@ -28,9 +28,4 @@ data class PredefinedListItem(
     val listName: String,
     val page: Int,
     val createdAt: Long
-) {
-
-    companion object {
-        const val POPULAR_MOVIES_LIST = "popular"
-    }
-}
+)

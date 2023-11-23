@@ -6,19 +6,18 @@ import com.dosbots.flixme.data.cache.PredefinedListCacheValidator
 import com.dosbots.flixme.data.dabase.MoviesDao
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.api.PaginatedResponse
-import com.dosbots.flixme.data.models.database.PredefinedListItem
 import com.dosbots.flixme.data.models.database.PredefinedMoviesList
 import retrofit2.Response
 import javax.inject.Inject
 
-class PopularMoviesRemoteMediator @Inject constructor(
+class TopRatedMoviesRemoteMediator @Inject constructor(
     private val moviesApi: MoviesApi,
     moviesDao: MoviesDao
 ) : PredefinedListsRemoteMediator(moviesDao) {
 
-    override val list: PredefinedMoviesList = PredefinedMoviesList.PopularMovies
+    override val list: PredefinedMoviesList = PredefinedMoviesList.TopRatedMovies
 
     override suspend fun fetchMovies(page: Int): Response<PaginatedResponse<Movie>> {
-        return moviesApi.getPopularMovies(page)
+        return moviesApi.getTopRatedMovies(page)
     }
 }

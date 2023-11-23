@@ -102,6 +102,8 @@ dependencies {
     implementation(Dependencies.PlayServices.auth)
     implementation(Dependencies.Firebase.firestore)
 
+    implementation(Dependencies.coil)
+
     implementation(Dependencies.Hilt.core)
     kapt(Dependencies.Hilt.compiler)
 

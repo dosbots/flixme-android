@@ -5,10 +5,12 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.dosbots.flixme.data.cache.CacheValidator
+import com.dosbots.flixme.data.cache.PredefinedListCacheValidator
 import com.dosbots.flixme.data.dabase.MoviesDao
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.api.PaginatedResponse
 import com.dosbots.flixme.data.models.database.PredefinedListItem
+import com.dosbots.flixme.data.models.database.PredefinedMoviesList
 import retrofit2.Response
 import java.io.IOException
 
@@ -19,13 +21,14 @@ abstract class PredefinedListsRemoteMediator(
     private val moviesDao: MoviesDao
 ) : RemoteMediator<Int, Movie>() {
 
-    abstract val listName: String
-    abstract val cacheValidator: CacheValidator
+    abstract val list: PredefinedMoviesList
+
+    private val cacheValidator: CacheValidator by lazy { PredefinedListCacheValidator(list, moviesDao) }
 
     abstract suspend fun fetchMovies(page: Int): Response<PaginatedResponse<Movie>>
 
     override suspend fun initialize(): InitializeAction {
-        val popularMoviesNumber = moviesDao.countMoviesInPredefinedList(listName = listName)
+        val popularMoviesNumber = moviesDao.countMoviesInPredefinedList(listName = list.name)
         return if (popularMoviesNumber == 0) {
             InitializeAction.LAUNCH_INITIAL_REFRESH
         } else if (cacheValidator.validateCache()) {
@@ -47,7 +50,7 @@ abstract class PredefinedListsRemoteMediator(
 
                 val popularMovie = moviesDao.getApiMovieListItem(
                     movieId = lastItem.id,
-                    listName = listName
+                    listName = list.name
                 )
                 popularMovie.page.plus(1)
             }
@@ -61,7 +64,7 @@ abstract class PredefinedListsRemoteMediator(
                 val predefinedListMovies = movies.map {
                     PredefinedListItem(
                         movieId = it.id,
-                        listName = listName,
+                        listName = list.name,
                         page = paginatedResponse.page,
                         createdAt = System.currentTimeMillis()
                     )
