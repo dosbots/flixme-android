@@ -14,7 +14,7 @@ import com.dosbots.flixme.data.models.database.PredefinedMoviesList
 import retrofit2.Response
 import java.io.IOException
 
-private const val POPULAR_MOVIES_FIRST_PAGE = 1
+private const val MOVIES_LIST_FIRST_PAGE = 1
 
 @OptIn(ExperimentalPagingApi::class)
 abstract class PredefinedListsRemoteMediator(
@@ -40,7 +40,7 @@ abstract class PredefinedListsRemoteMediator(
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
         val loadKey: Int = when (loadType) {
-            LoadType.REFRESH -> POPULAR_MOVIES_FIRST_PAGE
+            LoadType.REFRESH -> MOVIES_LIST_FIRST_PAGE
             LoadType.PREPEND -> {
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
