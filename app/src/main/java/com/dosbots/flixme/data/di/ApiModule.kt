@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Named
 
@@ -27,10 +28,12 @@ class RetrofitApiModule {
 
     @Provides
     fun provideMoviesApi(
-        @Named("movies_api_retrofit_builder") retrofit: Retrofit.Builder
+        retrofit: Retrofit.Builder,
+        @Named("movies_api_okhttp_client_builder") okHttpClient: OkHttpClient
     ): MoviesApi {
         return retrofit
             .baseUrl("https://api.themoviedb.org/3/")
+            .client(okHttpClient)
             .build()
             .create(MoviesApi::class.java)
     }

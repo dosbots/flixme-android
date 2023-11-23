@@ -37,13 +37,9 @@ class NetworkingModule {
             .build()
     }
 
-    @Named("movies_api_retrofit_builder")
     @Provides
-    fun provideRetrofitBuilder(
-        @Named("movies_api_okhttp_client_builder") okHttpClient: OkHttpClient
-    ): Retrofit.Builder {
+    fun provideBaseRetrofitBuilder(): Retrofit.Builder {
         return Retrofit.Builder()
-            .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create())
     }
 }
