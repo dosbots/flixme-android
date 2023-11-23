@@ -12,8 +12,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
@@ -38,17 +41,19 @@ import coil.compose.AsyncImagePainter
 import com.dosbots.flixme.R
 import com.dosbots.flixme.ui.compose.shimmer.ShimmerBoxLoading
 import com.dosbots.flixme.ui.theme.FlixmeUi
+import com.dosbots.flixme.ui.utils.LightAndDarkModePreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val popularMoviesState = viewModel.popularMoviesState.collectAsLazyPagingItems()
-    val topRatedMoviesState = viewModel.topRatedMovies.collectAsLazyPagingItems()
     HomeScreen(
-        popularMoviesState = popularMoviesState,
-        topRatedMoviesState = topRatedMoviesState,
+        popularMoviesState = viewModel.popularMoviesState,
+        topRatedMoviesState = viewModel.topRatedMovies,
         modifier = modifier
     )
 }
@@ -57,8 +62,8 @@ fun HomeScreen(
 @Composable
 private fun HomeScreen(
     modifier: Modifier = Modifier,
-    popularMoviesState: LazyPagingItems<HomeScreenMovie>,
-    topRatedMoviesState: LazyPagingItems<HomeScreenMovie>
+    popularMoviesState: Flow<PagingData<HomeScreenMovie>>,
+    topRatedMoviesState: Flow<PagingData<HomeScreenMovie>>
 ) {
     Scaffold(
         topBar = {
@@ -85,12 +90,12 @@ private fun HomeScreen(
             Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
             MoviesScrollableRow(
                 title = "Popular movies",
-                movies = popularMoviesState
+                movies = popularMoviesState.collectAsLazyPagingItems()
             )
             Spacer(modifier = Modifier.height(FlixmeUi.dimens.lg))
             MoviesScrollableRow(
                 title = "Top rated movies",
-                movies = topRatedMoviesState
+                movies = topRatedMoviesState.collectAsLazyPagingItems()
             )
         }
     }
@@ -154,7 +159,8 @@ private fun MovieItem(
     movie: HomeScreenMovie
 ) {
     Card(
-        shape = FlixmeUi.shapes.large
+        shape = FlixmeUi.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = FlixmeUi.colorScheme.surface)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -223,7 +229,40 @@ private fun MovieImage(
     }
 }
 
-
 private val movieListItemWidth = 200.dp
 private val movieImageHeight = 120.dp
 private val movieItemLoadingHeight = 148.dp
+
+@LightAndDarkModePreview
+@Composable
+private fun HomeScreenPreview() {
+    FlixmeUi {
+        Surface {
+            val moviesFlow = MutableStateFlow(
+                PagingData.from(
+                    listOf(
+                        HomeScreenMovie(
+                            id = 1,
+                            title = "Movie 1",
+                            imageUrl = ""
+                        ),
+                        HomeScreenMovie(
+                            id = 2,
+                            title = "Movie 2",
+                            imageUrl = ""
+                        ),
+                        HomeScreenMovie(
+                            id = 3,
+                            title = "Movie 2",
+                            imageUrl = ""
+                        )
+                    )
+                )
+            )
+            HomeScreen(
+                popularMoviesState = moviesFlow,
+                topRatedMoviesState = moviesFlow
+            )
+        }
+    }
+}

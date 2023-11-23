@@ -21,7 +21,7 @@ abstract class PredefinedListsRemoteMediator(
     private val moviesDao: MoviesDao
 ) : RemoteMediator<Int, Movie>() {
 
-    abstract val list: PredefinedMoviesList
+    protected abstract val list: PredefinedMoviesList
 
     private val cacheValidator: CacheValidator by lazy { PredefinedListCacheValidator(list, moviesDao) }
 

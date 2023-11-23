@@ -21,6 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -41,6 +42,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -160,9 +162,16 @@ private fun DeveloperLoginScreen(
             Spacer(modifier = Modifier.height(FlixmeUi.dimens.xlg))
 
             var email by remember { mutableStateOf("") }
-            TextField(
+            OutlinedTextField(
                 value = email,
                 placeholder = {
+                    Text(
+                        text = "myaccount@flixme.com",
+                        color = Color.Gray,
+                        style = FlixmeUi.typography.bodyMedium
+                    )
+                },
+                label = {
                     Text(
                         text = stringResource(
                             id = R.string.login_screen_email_placeholder
@@ -188,9 +197,16 @@ private fun DeveloperLoginScreen(
             Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
 
             var password by remember { mutableStateOf("") }
-            TextField(
+            OutlinedTextField(
                 value = password,
                 placeholder = {
+                    Text(
+                        text = "myawesomepassword",
+                        color = Color.Gray,
+                        style = FlixmeUi.typography.bodyMedium
+                    )
+                },
+                label = {
                     Text(
                         text = stringResource(
                             id = R.string.login_screen_password_placeholder

@@ -62,9 +62,8 @@ fun Modifier.shimmer(color: Color? = null): Modifier = composed {
 private const val OFFSET_MULTIPLIER = 1.5f
 
 @LightAndDarkModePreview
-@Preview(showBackground = true)
 @Composable
-private fun ShimmerLoading() {
+private fun ShimmerLoadingPreview() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
