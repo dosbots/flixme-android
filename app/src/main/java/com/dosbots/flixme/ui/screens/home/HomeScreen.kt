@@ -1,5 +1,6 @@
 package com.dosbots.flixme.ui.screens.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +12,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,9 +29,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -41,10 +47,10 @@ import coil.compose.AsyncImagePainter
 import com.dosbots.flixme.R
 import com.dosbots.flixme.ui.compose.shimmer.ShimmerBoxLoading
 import com.dosbots.flixme.ui.theme.FlixmeUi
+import com.dosbots.flixme.ui.theme.Gray100
 import com.dosbots.flixme.ui.utils.LightAndDarkModePreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(
@@ -116,7 +122,7 @@ private fun MoviesScrollableRow(
             modifier = Modifier.height(FlixmeUi.dimens.sm)
         )
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(FlixmeUi.dimens.sm)
+            horizontalArrangement = Arrangement.spacedBy(FlixmeUi.dimens.md)
         ) {
             items(movies.itemCount) { index ->
                 movies[index]?.let {
@@ -125,16 +131,20 @@ private fun MoviesScrollableRow(
             }
             when {
                 movies.loadState.refresh is LoadState.Loading -> {
-                    item {
+                    items(5) {
                         ShimmerBoxLoading(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(100.dp)
+                                .width(movieListItemWidth)
+                                .height(movieItemLoadingHeight)
                         )
                     }
                 }
                 movies.loadState.refresh is LoadState.Error -> {
-
+                    item {
+                        MoviesSectionLoadingError {
+                            movies.retry()
+                        }
+                    }
                 }
                 movies.loadState.append is LoadState.Loading -> {
                     item {
@@ -146,7 +156,11 @@ private fun MoviesScrollableRow(
                     }
                 }
                 movies.loadState.append is LoadState.Error -> {
-
+                    item {
+                        MoviesSectionLoadMoreError {
+                            movies.retry()
+                        }
+                    }
                 }
             }
         }
@@ -229,6 +243,67 @@ private fun MovieImage(
     }
 }
 
+@Composable
+private fun MoviesSectionLoadingError(
+    modifier: Modifier = Modifier,
+    onTryAgain: () -> Unit,
+) {
+    Card(
+        shape = FlixmeUi.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = FlixmeUi.colorScheme.surface),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(FlixmeUi.dimens.md)
+    ) {
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+        Text(
+            text = stringResource(id = R.string.generic_error),
+            style = FlixmeUi.typography.bodyLarge,
+            modifier = Modifier.align(CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+        Button(
+            onClick = onTryAgain,
+            modifier = Modifier
+                .height(ButtonDefaults.MinHeight)
+                .align(CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(
+                    id = R.string.try_again
+                ),
+                style = FlixmeUi.typography.bodyMedium
+            )
+        }
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+    }
+}
+
+@Composable
+private fun MoviesSectionLoadMoreError(
+    modifier: Modifier = Modifier,
+    onTryAgain: () -> Unit,
+) {
+    Card(
+        shape = FlixmeUi.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = FlixmeUi.colorScheme.surface),
+        modifier = modifier
+            .width(movieListItemWidth)
+            .padding(FlixmeUi.dimens.md)
+    ) {
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+        Icon(
+            painter = painterResource(id = R.drawable.ic_refresh),
+            tint = Gray100,
+            contentDescription = null,
+            modifier = Modifier
+                .align(CenterHorizontally)
+                .clickable { onTryAgain() }
+        )
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+    }
+}
+
 private val movieListItemWidth = 200.dp
 private val movieImageHeight = 120.dp
 private val movieItemLoadingHeight = 148.dp
@@ -262,6 +337,30 @@ private fun HomeScreenPreview() {
             HomeScreen(
                 popularMoviesState = moviesFlow,
                 topRatedMoviesState = moviesFlow
+            )
+        }
+    }
+}
+
+@LightAndDarkModePreview
+@Composable
+private fun SectionLoadingError() {
+    FlixmeUi {
+        Surface {
+            MoviesSectionLoadingError(
+                onTryAgain = {}
+            )
+        }
+    }
+}
+
+@LightAndDarkModePreview
+@Composable
+private fun LoadMoreMoviesError() {
+    FlixmeUi {
+        Surface {
+            MoviesSectionLoadMoreError(
+                onTryAgain = {}
             )
         }
     }
