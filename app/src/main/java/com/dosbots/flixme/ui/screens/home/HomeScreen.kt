@@ -141,7 +141,9 @@ private fun MoviesScrollableRow(
                 }
                 movies.loadState.refresh is LoadState.Error -> {
                     item {
-                        MoviesSectionLoadingError {
+                        MoviesSectionLoadingError(
+                            modifier = Modifier.fillParentMaxWidth()
+                        ) {
                             movies.retry()
                         }
                     }
@@ -251,9 +253,7 @@ private fun MoviesSectionLoadingError(
     Card(
         shape = FlixmeUi.shapes.large,
         colors = CardDefaults.cardColors(containerColor = FlixmeUi.colorScheme.surface),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(FlixmeUi.dimens.md)
+        modifier = modifier.fillMaxWidth()
     ) {
         Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
         Text(
@@ -334,6 +334,7 @@ private fun HomeScreenPreview() {
                     )
                 )
             )
+
             HomeScreen(
                 popularMoviesState = moviesFlow,
                 topRatedMoviesState = moviesFlow
