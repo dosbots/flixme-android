@@ -2,6 +2,7 @@ package com.dosbots.flixme.data.di
 
 import android.content.Context
 import com.dosbots.flixme.data.dabase.LocalDatabase
+import com.dosbots.flixme.data.dabase.MoviesDao
 import com.dosbots.flixme.data.dabase.UsersDao
 import dagger.Module
 import dagger.Provides
@@ -21,5 +22,10 @@ class DatabaseModule {
     @Provides
     fun provideUsersDao(localDatabase: LocalDatabase): UsersDao {
         return localDatabase.usersDao()
+    }
+
+    @Provides
+    fun provideMoviesDao(localDatabase: LocalDatabase): MoviesDao {
+        return localDatabase.moviesDao()
     }
 }

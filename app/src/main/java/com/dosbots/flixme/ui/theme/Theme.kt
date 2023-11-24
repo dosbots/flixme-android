@@ -29,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
     primary = Teal100,
     secondary = Pink100,
     surface = White100,
-    surfaceVariant = Pink100.copy(alpha = 0.4f),
+    surfaceVariant = Teal25.copy(alpha = 0.4f),
     onSurfaceVariant = DarkGray100,
     background = Teal5,
     onPrimary = DarkGray100,

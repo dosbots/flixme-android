@@ -69,6 +69,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
@@ -101,12 +102,22 @@ dependencies {
     implementation(Dependencies.PlayServices.auth)
     implementation(Dependencies.Firebase.firestore)
 
+    implementation(Dependencies.coil)
+
     implementation(Dependencies.Hilt.core)
     kapt(Dependencies.Hilt.compiler)
 
     implementation(Dependencies.Room.room)
     implementation(Dependencies.Room.roomKtx)
+    implementation(Dependencies.Room.paging)
     ksp(Dependencies.Room.compiler)
+
+    implementation(Dependencies.Retrofit.retrofit)
+    implementation(Dependencies.Retrofit.moshiConverter)
+    debugImplementation(Dependencies.Retrofit.loggingInterceptor)
+
+    implementation(Dependencies.Paging.paging)
+    implementation(Dependencies.Paging.pagingCompose)
 
     testImplementation(Dependencies.Testing.jUnit)
     testImplementation(Dependencies.Testing.mockk)

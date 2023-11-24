@@ -7,6 +7,9 @@ object Versions {
         const val minSdk = 26
         const val targetSdk = 34
     }
+
+    const val coil = "2.5.0"
+
     object AndroidX {
         const val core = "1.9.0"
         const val lifecycle = "2.6.2"
@@ -42,5 +45,13 @@ object Versions {
     }
     object Room {
         const val room = "2.6.0"
+    }
+    object Retrofit {
+        const val retrofit = "2.9.0"
+        const val loggingInterceptor = "4.11.0"
+    }
+    object Paging {
+        const val paging = "3.2.1"
+        const val pagingCompose = "3.3.0-alpha02"
     }
 }

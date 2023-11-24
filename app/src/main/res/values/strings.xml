@@ -2,9 +2,17 @@
     <string name="app_name">Flixme</string>
 
     <!-- general use -->
+    <string name="generic_error">Ops, something went wrong!</string>
+    <string name="try_again">Try again</string>
     <string name="send_email_intent_chooser_title">Send email using…</string>
 
     <!-- user disabled screen -->
     <string name="user_disabled_screen_title">User disabled</string>
     <string name="user_disabled_screen_message">Sadly, your user has been disabled. This can happen for very different reasons. If you consider this is an error, please contact us at</string>
+
+    <!-- home screen -->
+    <string name="home_screen_title">@string/app_name</string>
+    <string name="home_screen_popular_movies">Popular</string>
+    <string name="home_screen_top_rated_movies">Top rated</string>
+
 </resources>
