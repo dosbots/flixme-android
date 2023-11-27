@@ -18,12 +18,16 @@ class DevelopmentAuthentication @Inject constructor() : FirebaseAuthenticationMe
         }
         return try {
             val authResult = signIn(credentials.email, credentials.password)
+
+            val userId = authResult.user!!.uid
+            val isNewUser = authResult.additionalUserInfo?.isNewUser ?: false
             AuthenticationResult.Success(
-                isNew = authResult.additionalUserInfo?.isNewUser ?: false,
-                user = User(
-                    id = authResult.user!!.uid,
+                userId = userId,
+                userData = User(
+                    id = userId,
                     name = authResult.additionalUserInfo?.username ?: credentials.email
-                )
+                ).takeIf { isNewUser },
+                isNew = isNewUser
             )
         } catch (ex: FirebaseAuthInvalidUserException) {
             when (ex.errorCode) {

@@ -8,6 +8,7 @@ import com.dosbots.flixme.data.authentication.DevelopmentCredentials
 import com.dosbots.flixme.data.repository.AuthenticationRepository
 import com.dosbots.flixme.ui.communication.UiMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -29,8 +30,17 @@ class DeveloperLoginViewModel @Inject constructor(
             )
             return
         }
+
         _state.update { it.copy(loading = true) }
-        viewModelScope.launch {
+
+        viewModelScope.launch(
+            CoroutineExceptionHandler { _, throwable ->
+                // TODO log authentication error
+                _state.value = DeveloperLoginState(
+                    errorMessage = UiMessage(R.string.login_screen_generic_error)
+                )
+            }
+        ) {
             val signInResult = authenticationRepository.signIn(DevelopmentCredentials(email, password))
             when (signInResult) {
                 is AuthenticationResult.Success -> {

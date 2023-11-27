@@ -82,12 +82,31 @@ class DeveloperLoginViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
+    fun `When an exception is thrown while logging in, then update state with error message`() = runTest {
+        val viewModel = newTestSubject(
+            FakeAuthenticationRepository { throw RuntimeException("Error logging in") }
+        )
+
+        // remove the initial event
+        viewModel.clearEvent()
+
+        viewModel.signIn("contacto@dosbots.com", "mysupersecurepassword1")
+
+        advanceUntilIdle()
+
+        assertThat(viewModel.state.value)
+            .isEqualTo(DeveloperLoginState(errorMessage = UiMessage(R.string.login_screen_generic_error)))
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
     fun `When login in successfully, then the state is updated with OnSignInSuccess event`() = runTest {
         val viewModel = newTestSubject(
             FakeAuthenticationRepository {
                 AuthenticationResult.Success(
                     isNew = true,
-                    user = User(id = "myuid", name = "Batman")
+                    userId = "myuid",
+                    userData = User(id = "myuid", name = "Batman")
                 )
             }
         )

@@ -1,7 +1,7 @@
 package com.dosbots.flixme.data.di
 
 import com.dosbots.flixme.BuildConfig
-import com.dosbots.flixme.data.api.interceptor.MoviesApiInterceptor
+import com.dosbots.flixme.data.api.movies.interceptor.MoviesApiInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

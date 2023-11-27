@@ -1,8 +1,10 @@
 package com.dosbots.flixme.data.di
 
-import com.dosbots.flixme.data.api.FirestoreUsersApi
-import com.dosbots.flixme.data.api.MoviesApi
-import com.dosbots.flixme.data.api.UsersApi
+import com.dosbots.flixme.data.api.lists.FirestoreMyMoviesListApi
+import com.dosbots.flixme.data.api.lists.MyMoviesListApi
+import com.dosbots.flixme.data.api.users.FirestoreUsersApi
+import com.dosbots.flixme.data.api.movies.MoviesApi
+import com.dosbots.flixme.data.api.users.UsersApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,6 +22,11 @@ abstract class FirebaseAPIsModule {
     abstract fun bindUsersApi(
         api: FirestoreUsersApi
     ): UsersApi
+
+    @Binds
+    abstract fun bindMyMoviesListApi(
+        api: FirestoreMyMoviesListApi
+    ): MyMoviesListApi
 }
 
 @InstallIn(SingletonComponent::class)

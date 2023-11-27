@@ -4,8 +4,9 @@ import com.dosbots.flixme.data.models.User
 
 sealed interface AuthenticationResult {
     data class Success(
-        val user: User,
-        val isNew: Boolean,
+        val userId: String,
+        val userData: User?,
+        val isNew: Boolean
     ) : AuthenticationResult
     data object UserDeleted : AuthenticationResult
     data object UserDisabled : AuthenticationResult

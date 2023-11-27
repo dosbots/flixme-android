@@ -1,6 +1,7 @@
 package com.dosbots.flixme.ui.di
 
 import com.dosbots.flixme.ui.navigation.NavigationDestination
+import com.dosbots.flixme.ui.screens.createlist.CreateListDestination
 import com.dosbots.flixme.ui.screens.home.HomeScreenDestination
 import com.dosbots.flixme.ui.screens.userdisabled.UserDisabledDestination
 import dagger.Binds
@@ -23,5 +24,11 @@ abstract class NavigationDestinationModule {
     @Binds
     abstract fun bindHomeScreenDestination(
         destination: HomeScreenDestination
+    ): NavigationDestination
+
+    @IntoSet
+    @Binds
+    abstract fun bindCreateListDestination(
+        destination: CreateListDestination
     ): NavigationDestination
 }

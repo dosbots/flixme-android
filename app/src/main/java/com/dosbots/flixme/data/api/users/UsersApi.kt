@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.api
+package com.dosbots.flixme.data.api.users
 
 import com.dosbots.flixme.data.models.User
 

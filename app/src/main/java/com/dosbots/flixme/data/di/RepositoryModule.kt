@@ -4,6 +4,8 @@ import com.dosbots.flixme.data.repository.AuthenticationRepository
 import com.dosbots.flixme.data.repository.AuthenticationRepositoryImpl
 import com.dosbots.flixme.data.repository.MoviesRepository
 import com.dosbots.flixme.data.repository.MoviesRepositoryImpl
+import com.dosbots.flixme.data.repository.MyMoviesListsRepository
+import com.dosbots.flixme.data.repository.MyMoviesListsRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +24,9 @@ abstract class RepositoryModule {
     abstract fun bindMoviesRepository(
         repositoryImpl: MoviesRepositoryImpl
     ): MoviesRepository
+
+    @Binds
+    abstract fun bindMyMoviesListsRepository(
+        repositoryImpl: MyMoviesListsRepositoryImpl
+    ): MyMoviesListsRepository
 }

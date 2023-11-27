@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.dosbots.flixme.data.models.Movie
-import com.dosbots.flixme.data.models.database.PredefinedListItem
+import com.dosbots.flixme.data.models.PredefinedListItem
 
 @Dao
 abstract class MoviesDao {

@@ -9,8 +9,8 @@ import com.dosbots.flixme.data.cache.PredefinedListCacheValidator
 import com.dosbots.flixme.data.dabase.MoviesDao
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.api.PaginatedResponse
-import com.dosbots.flixme.data.models.database.PredefinedListItem
-import com.dosbots.flixme.data.models.database.PredefinedMoviesList
+import com.dosbots.flixme.data.models.PredefinedListItem
+import com.dosbots.flixme.data.models.PredefinedMoviesList
 import retrofit2.Response
 import java.io.IOException
 

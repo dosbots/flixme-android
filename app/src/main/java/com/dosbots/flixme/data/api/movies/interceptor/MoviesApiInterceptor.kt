@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.api.interceptor
+package com.dosbots.flixme.data.api.movies.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response

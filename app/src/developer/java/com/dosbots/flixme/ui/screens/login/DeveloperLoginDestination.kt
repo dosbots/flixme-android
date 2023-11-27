@@ -6,7 +6,6 @@ import androidx.navigation.compose.composable
 import com.dosbots.flixme.data.authentication.AuthenticationStatus
 import com.dosbots.flixme.ui.navigation.NavigationDestination
 import com.dosbots.flixme.ui.navigation.popBackStack
-import com.dosbots.flixme.ui.screens.home.HomeScreen
 import com.dosbots.flixme.ui.screens.home.HomeScreenDestination
 import com.dosbots.flixme.ui.screens.userdisabled.UserDisabledDestination
 import javax.inject.Inject

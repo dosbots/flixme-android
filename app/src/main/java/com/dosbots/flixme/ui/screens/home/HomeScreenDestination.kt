@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import com.dosbots.flixme.data.authentication.AuthenticationStatus
 import com.dosbots.flixme.ui.navigation.NavigationDestination
+import com.dosbots.flixme.ui.screens.createlist.CreateListDestination
 import javax.inject.Inject
 
 class HomeScreenDestination @Inject constructor(
@@ -21,7 +22,11 @@ class HomeScreenDestination @Inject constructor(
         navHostController: NavHostController
     ) {
         navGraphBuilder.composable(ROUTE) {
-            HomeScreen()
+            HomeScreen(
+                onCreateListClick = {
+                    navHostController.navigate(CreateListDestination.ROUTE)
+                }
+            )
         }
     }
 

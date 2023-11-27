@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.api
+package com.dosbots.flixme.data.api.movies
 
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.api.PaginatedResponse
@@ -14,4 +14,10 @@ interface MoviesApi {
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(@Query("page") page: Int): Response<PaginatedResponse<Movie>>
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): Response<PaginatedResponse<Movie>>
 }

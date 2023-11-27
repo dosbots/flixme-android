@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.models.database
+package com.dosbots.flixme.data.models
 
 import androidx.room.Entity
 import androidx.room.ForeignKey

@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,9 +36,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
@@ -55,11 +58,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onCreateListClick: () -> Unit
 ) {
+    val myMoviesLists by viewModel.myMoviesList.collectAsStateWithLifecycle()
     HomeScreen(
+        myMoviesLists = myMoviesLists,
         popularMoviesState = viewModel.popularMoviesState,
         topRatedMoviesState = viewModel.topRatedMovies,
+        onCreateListClick = onCreateListClick,
         modifier = modifier
     )
 }
@@ -68,8 +75,10 @@ fun HomeScreen(
 @Composable
 private fun HomeScreen(
     modifier: Modifier = Modifier,
+    myMoviesLists: MyMoviesListState,
     popularMoviesState: Flow<PagingData<HomeScreenMovie>>,
-    topRatedMoviesState: Flow<PagingData<HomeScreenMovie>>
+    topRatedMoviesState: Flow<PagingData<HomeScreenMovie>>,
+    onCreateListClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -90,10 +99,14 @@ private fun HomeScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues) // ignore, not using bottom bar
-                .padding(horizontal = FlixmeUi.dimens.md)
+                .padding(horizontal = FlixmeUi.dimens.md, vertical = FlixmeUi.dimens.md)
                 .verticalScroll(rememberScrollState())
         ) {
-            Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+            MyListsOfMoviesScrollableRow(
+                myMoviesLists = myMoviesLists,
+                onCreateListClick = onCreateListClick
+            )
+            Spacer(modifier = Modifier.height(FlixmeUi.dimens.lg))
             MoviesScrollableRow(
                 title = "Popular movies",
                 movies = popularMoviesState.collectAsLazyPagingItems()
@@ -108,10 +121,10 @@ private fun HomeScreen(
 }
 
 @Composable
-private fun MoviesScrollableRow(
+private fun HomeScreenSection(
     modifier: Modifier = Modifier,
     title: String,
-    movies: LazyPagingItems<HomeScreenMovie>
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Column(modifier = modifier) {
         Text(
@@ -121,6 +134,87 @@ private fun MoviesScrollableRow(
         Spacer(
             modifier = Modifier.height(FlixmeUi.dimens.sm)
         )
+        content()
+    }
+}
+
+@Composable
+private fun MyListsOfMoviesScrollableRow(
+    modifier: Modifier = Modifier,
+    myMoviesLists: MyMoviesListState,
+    onCreateListClick: () -> Unit
+) {
+    HomeScreenSection(
+        title = stringResource(id = R.string.home_screen_my_lists_of_movies),
+        modifier = modifier
+    ) {
+        when (myMoviesLists) {
+            MyMoviesListState.NoListCreated -> {
+                CreateListOfMoviesCard(
+                    onCreateListClick = onCreateListClick
+                )
+            }
+            is MyMoviesListState.HomeScreenMoviesList -> {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(FlixmeUi.dimens.md)
+                ) {
+
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CreateListOfMoviesCard(
+    modifier: Modifier = Modifier,
+    onCreateListClick: () -> Unit
+) {
+    Card(
+        shape = FlixmeUi.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = FlixmeUi.colorScheme.surface),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+        Text(
+            text = stringResource(id = R.string.home_screen_create_list_title),
+            style = FlixmeUi.typography.bodyLarge,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.align(CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.sm))
+        Text(
+            text = stringResource(id = R.string.home_screen_create_list_description),
+            style = FlixmeUi.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.align(CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+        Button(
+            onClick = onCreateListClick,
+            modifier = Modifier
+                .height(ButtonDefaults.MinHeight)
+                .align(CenterHorizontally)
+        ) {
+            Text(
+                text = stringResource(id = R.string.home_screen_create_list_cta),
+                style = FlixmeUi.typography.bodyMedium
+            )
+        }
+        Spacer(modifier = Modifier.height(FlixmeUi.dimens.md))
+    }
+}
+
+@Composable
+private fun MoviesScrollableRow(
+    modifier: Modifier = Modifier,
+    title: String,
+    movies: LazyPagingItems<HomeScreenMovie>
+) {
+    HomeScreenSection(
+        title = title,
+        modifier = modifier
+    ) {
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(FlixmeUi.dimens.md)
         ) {
@@ -179,7 +273,7 @@ private fun MovieItem(
         colors = CardDefaults.cardColors(containerColor = FlixmeUi.colorScheme.surface)
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = modifier
                 .width(movieListItemWidth)
@@ -334,10 +428,11 @@ private fun HomeScreenPreview() {
                     )
                 )
             )
-
             HomeScreen(
                 popularMoviesState = moviesFlow,
-                topRatedMoviesState = moviesFlow
+                topRatedMoviesState = moviesFlow,
+                myMoviesLists = MyMoviesListState.NoListCreated,
+                onCreateListClick = {}
             )
         }
     }

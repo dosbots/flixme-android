@@ -1,6 +1,6 @@
 package com.dosbots.flixme.data.repository
 
-import com.dosbots.flixme.data.api.UsersApi
+import com.dosbots.flixme.data.api.users.UsersApi
 import com.dosbots.flixme.data.authentication.AuthenticationResult
 import com.dosbots.flixme.data.authentication.utils.FakeAuthenticationMethod
 import com.dosbots.flixme.data.authentication.utils.FakeCredentials
@@ -44,9 +44,10 @@ class AuthenticationRepositoryTest {
 
     @Test
     fun `When logging in is successful, and it is a new user, then make a request to create the user and insert it into the database`() = runTest {
-        val user = User(id = "user-id-123", name = "John Lennon")
+        val userId = "user-id-123"
+        val user = User(id = userId, name = "John Lennon")
         val authenticationRepository = newTestSubject(
-            expectedAuthResult = AuthenticationResult.Success(isNew = true, user = user)
+            expectedAuthResult = AuthenticationResult.Success(isNew = true, userId = userId, userData = user)
         )
 
         val result = authenticationRepository.signIn(FakeCredentials)
@@ -60,9 +61,10 @@ class AuthenticationRepositoryTest {
 
     @Test
     fun `When logging in is successful, but user is not new, then just insert it into the database`() = runTest {
-        val user = User(id = "user-id-123", name = "John Lennon")
+        val userId = "user-id-123"
+        val user = User(id = userId, name = "John Lennon")
         val authenticationRepository = newTestSubject(
-            expectedAuthResult = AuthenticationResult.Success(isNew = false, user = user)
+            expectedAuthResult = AuthenticationResult.Success(isNew = false, userId = userId, userData = user)
         )
 
         val result = authenticationRepository.signIn(FakeCredentials)

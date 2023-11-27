@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.api
+package com.dosbots.flixme.data.api.users
 
 import com.dosbots.flixme.data.models.User
 import com.google.firebase.firestore.ktx.firestore
@@ -15,7 +15,7 @@ class FirestoreUsersApi @Inject constructor() : UsersApi {
             .document(id)
             .get()
             .await()
-        return a.toObject(User::class.java)
+        return a.toObject(FirestoreUser::class.java)?.toApplicationModel()
     }
 
     override suspend fun createUser(user: User) {
@@ -24,4 +24,13 @@ class FirestoreUsersApi @Inject constructor() : UsersApi {
             .set(user)
             .await()
     }
+}
+
+private data class FirestoreUser(
+    val id: String? = null,
+    val name: String? = null
+)
+
+private fun FirestoreUser.toApplicationModel(): User {
+    return User(id.orEmpty(), name.orEmpty())
 }

@@ -1,9 +1,16 @@
 package com.dosbots.flixme.ui.screens.home
 
-import androidx.paging.PagingData
+sealed class MyMoviesListState {
+    data class HomeScreenMoviesList(
+        val lists: List<HomeScreenListOfMovies>
+    ) : MyMoviesListState()
+    data object NoListCreated : MyMoviesListState()
+}
 
-data class HomeScreenState(
-    val popularMovies: PagingData<HomeScreenMovie> = PagingData.empty()
+data class HomeScreenListOfMovies(
+    val id: String,
+    val title: String,
+    val urls: List<String>
 )
 
 data class HomeScreenMovie(

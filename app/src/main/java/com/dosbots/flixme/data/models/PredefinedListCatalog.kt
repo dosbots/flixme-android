@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.models.database
+package com.dosbots.flixme.data.models
 
 sealed class PredefinedMoviesList(val name: String) {
     data object PopularMovies : PredefinedMoviesList("popular")

@@ -7,7 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.dosbots.flixme.data.dabase.MoviesDao
 import com.dosbots.flixme.data.models.Movie
-import com.dosbots.flixme.data.models.database.PredefinedMoviesList
+import com.dosbots.flixme.data.models.PredefinedMoviesList
 import com.dosbots.flixme.data.repository.paging.PopularMoviesRemoteMediator
 import com.dosbots.flixme.data.repository.paging.PredefinedListsRemoteMediator
 import com.dosbots.flixme.data.repository.paging.TopRatedMoviesRemoteMediator
