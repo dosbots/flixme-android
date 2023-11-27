@@ -18,7 +18,7 @@ object Versions {
         const val bom = "32.5.0"
     }
     object Compose {
-        const val bom = "2023.03.00"
+        const val bom = "2023.10.01"
         const val viewModelLifecycle = "2.5.1"
         const val runtimeLifecycle = "2.6.0-beta01"
         const val activity = "1.7.2"

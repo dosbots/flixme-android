@@ -51,7 +51,7 @@ class MyMoviesListsRepositoryImpl @Inject constructor(
     override suspend fun getMyMoviesListItems(listId: String): Flow<PagingData<MyMoviesListWithMoviesItem>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 15,
+                pageSize = 20,
                 prefetchDistance = 10
             ),
             pagingSourceFactory = {
@@ -64,7 +64,10 @@ class MyMoviesListsRepositoryImpl @Inject constructor(
         myMoviesListsDao.insertMoviesInList(items)
         withContext(NonCancellable) {
             myMoviesListApi.insertItemsInList(listId, items)
-            myMoviesListsDao.markMovieItemsAsSynced(listId, items.map { it.movieId })
+            myMoviesListsDao.markMovieItemsAsSynced(
+                listId = listId,
+                movieIds = items.map { it.movieId }
+            )
         }
     }
 
@@ -81,7 +84,10 @@ class MyMoviesListsRepositoryImpl @Inject constructor(
         withContext(NonCancellable) {
             myMoviesListApi.createNewList(list, items)
             myMoviesListsDao.markMoviesListAsSynced(list.id)
-            myMoviesListsDao.markMovieItemsAsSynced(list.id, items.map { it.movieId })
+            myMoviesListsDao.markMovieItemsAsSynced(
+                listId = list.id,
+                movieIds = items.map { it.movieId }
+            )
         }
     }
 }

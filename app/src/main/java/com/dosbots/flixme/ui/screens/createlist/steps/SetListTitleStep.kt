@@ -4,10 +4,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -15,11 +16,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import com.dosbots.flixme.R
 import com.dosbots.flixme.ui.communication.UiMessage
 import com.dosbots.flixme.ui.compose.FlixmeTextField
 import com.dosbots.flixme.ui.screens.createlist.CreateListScreenStep
-import com.dosbots.flixme.ui.screens.createlist.CreateListState
 import com.dosbots.flixme.ui.theme.FlixmeUi
 
 @Composable
@@ -34,14 +35,14 @@ fun ColumnScope.SetListTitleStep(
     )
     Text(
         text = stringResource(id = R.string.create_list_screen_set_title_step_title),
-        style = FlixmeUi.typography.displaySmall
+        style = FlixmeUi.typography.titleMedium
     )
     Spacer(
         modifier = Modifier.height(FlixmeUi.dimens.sm)
     )
     Text(
         text = stringResource(id = R.string.create_list_screen_set_title_step_subtitle),
-        style = FlixmeUi.typography.titleSmall
+        style = FlixmeUi.typography.bodyLarge
     )
     Spacer(
         modifier = Modifier.height(FlixmeUi.dimens.lg)
@@ -52,8 +53,10 @@ fun ColumnScope.SetListTitleStep(
         value = listTitle,
         onValueChanged = { listTitle = it },
         singleLine = true,
-        placeHolder = stringResource(id = R.string.create_list_screen_set_title_step_input_placeholder),
+        placeholder = stringResource(id = R.string.create_list_screen_set_title_step_input_placeholder),
         label = stringResource(id = R.string.create_list_screen_set_title_step_input_label),
+        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+        keyboardActions = KeyboardActions { onListTitleSet(listTitle) },
         supportingText = stepErrorMessage?.get(LocalContext.current),
         modifier = Modifier.fillMaxWidth()
     )

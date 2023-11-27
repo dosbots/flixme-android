@@ -2,7 +2,6 @@ package com.dosbots.flixme.ui.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -26,14 +25,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -45,9 +38,8 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter
 import com.dosbots.flixme.R
+import com.dosbots.flixme.ui.compose.ShimmerAsyncImage
 import com.dosbots.flixme.ui.compose.shimmer.ShimmerBoxLoading
 import com.dosbots.flixme.ui.theme.FlixmeUi
 import com.dosbots.flixme.ui.theme.Gray100
@@ -279,8 +271,10 @@ private fun MovieItem(
                 .width(movieListItemWidth)
                 .padding(FlixmeUi.dimens.md)
         ) {
-            MovieImage(
-                imageUrl = movie.imageUrl
+            ShimmerAsyncImage(
+                imageUrl = movie.imageUrl,
+                shimmerHeight = movieImageHeight,
+                shimmerWidth = movieListItemWidth
             )
             Spacer(
                 modifier = Modifier.height(FlixmeUi.dimens.sm)
@@ -290,50 +284,6 @@ private fun MovieItem(
                 style = FlixmeUi.typography.bodyLarge,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
-            )
-        }
-    }
-}
-
-@Composable
-private fun MovieImage(
-    imageUrl: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        contentAlignment = Alignment.Center
-    ) {
-        var loadingInProgress by remember { mutableStateOf(true) }
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = modifier
-                .height(movieImageHeight)
-                .fillMaxWidth()
-                .clip(FlixmeUi.shapes.large),
-            onState = { state ->
-                when(state) {
-                    is AsyncImagePainter.State.Loading -> {
-                        loadingInProgress = true
-                    }
-                    AsyncImagePainter.State.Empty -> {
-                        // no-op
-                    }
-                    is AsyncImagePainter.State.Success -> {
-                        loadingInProgress = false
-                    }
-                    is AsyncImagePainter.State.Error -> {
-                        loadingInProgress = false
-                    }
-                }
-            }
-        )
-        if (loadingInProgress) {
-            ShimmerBoxLoading(
-                modifier = Modifier
-                    .width(movieListItemWidth)
-                    .height(movieImageHeight)
             )
         }
     }

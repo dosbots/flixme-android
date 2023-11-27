@@ -3,7 +3,7 @@ package com.dosbots.flixme.ui.screens.createlist
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.dosbots.flixme.R
-import com.dosbots.flixme.commons.addOrReplace
+import com.dosbots.flixme.commons.or
 import com.dosbots.flixme.data.repository.MoviesRepository
 import com.dosbots.flixme.data.repository.MyMoviesListsRepository
 import com.dosbots.flixme.ui.communication.UiMessage
@@ -29,8 +29,7 @@ class CreateListViewModel @Inject constructor(
     private val _state = MutableStateFlow(
         CreateListState(
             stepsCount = CREATE_LIST_STEPS_COUNT,
-            currentStep = getCompletedSteps()
-                .maxByOrNull { it.stepIndex } ?: CreateListScreenStep.SetListTitleStep()
+            currentStep = getInitialStep()
         )
     )
     val state: StateFlow<CreateListState> = _state.asStateFlow()
@@ -40,7 +39,7 @@ class CreateListViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     errorMessage = UiMessage(
-                        message = R.string.create_list_screen_set_title_step_title_empty_error_message
+                        R.string.create_list_screen_set_title_step_title_empty_error_message
                     )
                 )
             }
@@ -50,9 +49,24 @@ class CreateListViewModel @Inject constructor(
             val currentStep = currentState.currentStep as CreateListScreenStep.SetListTitleStep
             saveCurrentStep(currentStep.copy(currentTitle = title))
             currentState.copy(
-                currentStep = CreateListScreenStep.AddMoviesStep()
+                currentStep = getNextStepIfAlreadyCompleted(
+                    currentStepIndex = currentStep.stepIndex,
+                    fallbackStep = CreateListScreenStep.AddMoviesStep()
+                )
             )
         }
+    }
+
+    fun onAddMovieToTheList(movie: ListMovie) {
+
+    }
+
+    fun finishAddMoviesStep() {
+
+    }
+
+    fun searchMovie(query: String) {
+
     }
 
     fun clearErrorMessage() {
@@ -73,12 +87,27 @@ class CreateListViewModel @Inject constructor(
         }
     }
 
-    private fun saveCurrentStep(currentState: CreateListScreenStep) {
-        savedStateHandle[currentState.id] = currentState
+    private fun saveCurrentStep(currentStep: CreateListScreenStep) {
+        savedStateHandle[currentStep.id] = currentStep
+    }
+
+    private fun getNextStepIfAlreadyCompleted(
+        currentStepIndex: Int,
+        fallbackStep: CreateListScreenStep
+    ): CreateListScreenStep {
+        return getCompletedSteps()
+            .find { it.stepIndex == currentStepIndex.plus(1) }
+            .or { fallbackStep }
+    }
+
+    private fun getInitialStep(): CreateListScreenStep {
+        return getCompletedSteps()
+            .maxByOrNull { it.stepIndex }
+            .or { CreateListScreenStep.SetListTitleStep() }
     }
 
     private fun getCompletedSteps(): List<CreateListScreenStep> {
-        return CreateListScreenStep.getStepsIds()
+        return CreateListScreenStep.getAllStepsIds()
             .mapNotNull { stepId -> savedStateHandle[stepId] }
     }
 }

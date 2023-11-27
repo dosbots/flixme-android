@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dosbots.flixme.ui.screens.createlist.steps.AddMoviesStep
@@ -40,18 +39,21 @@ fun CreateListScreen(
         modifier = modifier,
         state = state,
         onListTitleSet = { viewModel.setListTitle(it) },
+        onAddMoviesStepFinished = { viewModel.finishAddMoviesStep() },
+        onSearchMovie = { query -> viewModel.searchMovie(query) },
         onErrorMessageShown = { viewModel.clearErrorMessage() },
         handleBackTap = { viewModel.handleBackButtonTap() },
         navigateToPreviousScreen = navigateBack
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CreateListScreen(
     modifier: Modifier = Modifier,
     state: CreateListState,
     onListTitleSet: (String) -> Unit,
+    onAddMoviesStepFinished: () -> Unit,
+    onSearchMovie: (String) -> Unit,
     onErrorMessageShown: () -> Unit,
     handleBackTap: () -> Unit,
     navigateToPreviousScreen: () -> Unit
@@ -71,22 +73,9 @@ private fun CreateListScreen(
             .fillMaxSize()
             .padding(horizontal = FlixmeUi.dimens.lg, vertical = FlixmeUi.dimens.md)
     ) {
-        TopAppBar(
-            title = {},
-            navigationIcon = {
-                Icon(
-                    imageVector = if (state.currentStep.stepIndex == 0) {
-                        Icons.Rounded.Close
-                    } else {
-                        Icons.Rounded.ArrowBack
-                    },
-                    contentDescription = "close screen",
-                    modifier = Modifier.clickable { handleBackTap() }
-                )
-            },
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                containerColor = FlixmeUi.colorScheme.background
-            )
+        CreateListTopAppBar(
+            currentStepIndex = state.currentStep.stepIndex,
+            handleBackTap = handleBackTap
         )
         StepIndicator(
             stepsCount = state.stepsCount,
@@ -102,10 +91,41 @@ private fun CreateListScreen(
                 )
             }
             is CreateListScreenStep.AddMoviesStep -> {
-                AddMoviesStep(state = state.currentStep)
+                AddMoviesStep(
+                    state = state.currentStep,
+                    navigateToNextStep = onAddMoviesStepFinished,
+                    onSearchMovie = onSearchMovie
+                )
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CreateListTopAppBar(
+    modifier: Modifier = Modifier,
+    currentStepIndex: Int,
+    handleBackTap: () -> Unit
+) {
+    TopAppBar(
+        title = {},
+        navigationIcon = {
+            Icon(
+                imageVector = if (currentStepIndex == 0) {
+                    Icons.Rounded.Close
+                } else {
+                    Icons.Rounded.ArrowBack
+                },
+                contentDescription = "close screen",
+                modifier = Modifier.clickable { handleBackTap() }
+            )
+        },
+        colors = TopAppBarDefaults.smallTopAppBarColors(
+            containerColor = FlixmeUi.colorScheme.background
+        ),
+        modifier = modifier
+    )
 }
 
 @Composable

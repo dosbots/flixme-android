@@ -15,8 +15,9 @@ sealed class CreateListScreenStep(
     val id: String,
     val stepIndex: Int
 ) : Parcelable {
+
     companion object {
-        fun getStepsIds() = listOf(SET_LIST_TITLE_STEP_KEY, ADD_MOVIES_STEP_KEY)
+        fun getAllStepsIds() = listOf(SET_LIST_TITLE_STEP_KEY, ADD_MOVIES_STEP_KEY)
     }
 
     @Parcelize
@@ -26,6 +27,7 @@ sealed class CreateListScreenStep(
 
     @Parcelize
     data class AddMoviesStep(
+        val searchResults: List<ListMovie> = emptyList(),
         val addedMovies: List<ListMovie> = emptyList()
     ) : CreateListScreenStep(id = ADD_MOVIES_STEP_KEY, stepIndex = 1)
 }
@@ -33,14 +35,9 @@ sealed class CreateListScreenStep(
 @Parcelize
 data class ListMovie(
     val image: String,
-    val title: String
-) : Parcelable
-
-data class ListMovieDetail(
-    val image: String,
     val title: String,
     val overview: String
-)
+) : Parcelable
 
 sealed class Event {
     data object NavigateToPreviousScreen : Event()

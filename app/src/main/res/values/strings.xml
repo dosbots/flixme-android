@@ -28,6 +28,12 @@
     <string name="create_list_screen_set_title_step_title_empty_error_message">The title of the list cannot be empty</string>
 
     <string name="create_list_screen_add_movies_step_title">Now, let\'s add movies to this new list</string>
-    <string name="create_list_screen_add_movies_step_subtitle">This step is optional. You can add movies later, among other things</string>
+    <string name="create_list_screen_add_movies_step_subtitle">This step is optional. You can add movies later</string>
+    <string name="create_list_screen_add_movies_step_search_movies">Search</string>
+    <string name="create_list_screen_add_movies_step_search_movies_icon_content_description">Search movies to add to the list</string>
+    <string name="create_list_screen_add_movies_step_search_input_placeholder">E.g.: The godfather</string>
+    <string name="create_list_screen_add_movies_step_search_input_label">Search by movie title</string>
+    <string name="create_list_screen_add_movies_step_cta">Continue</string>
+
 
 </resources>
