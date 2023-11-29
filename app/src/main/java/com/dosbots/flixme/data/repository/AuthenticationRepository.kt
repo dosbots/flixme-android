@@ -4,7 +4,7 @@ import com.dosbots.flixme.data.api.users.UsersApi
 import com.dosbots.flixme.data.authentication.AuthenticationMethod
 import com.dosbots.flixme.data.authentication.AuthenticationResult
 import com.dosbots.flixme.data.authentication.FlixmeCredentials
-import com.dosbots.flixme.data.dabase.UsersDao
+import com.dosbots.flixme.data.dabase.dao.UsersDao
 import com.dosbots.flixme.data.models.User
 import javax.inject.Inject
 

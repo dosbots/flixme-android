@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.isUnspecified
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import com.dosbots.flixme.ui.compose.shimmer.ShimmerBoxLoading
@@ -25,7 +26,9 @@ fun ShimmerAsyncImage(
     imageUrl: String,
     shimmerHeight: Dp,
     shimmerWidth: Dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    imageWidth: Dp = Dp.Unspecified,
+    imageHeight: Dp = Dp.Unspecified
 ) {
     Box(
         modifier = modifier,
@@ -37,8 +40,10 @@ fun ShimmerAsyncImage(
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
+                .applyIf(imageWidth.isUnspecified) { fillMaxWidth() }
+                .applyIf(imageWidth.isUnspecified.not()) { width(imageWidth) }
+                .applyIf(imageHeight.isUnspecified) { fillMaxHeight() }
+                .applyIf(imageHeight.isUnspecified.not()) { height(imageHeight) }
                 .clip(FlixmeUi.shapes.large),
             onState = { state ->
                 when(state) {
@@ -64,5 +69,13 @@ fun ShimmerAsyncImage(
                     .height(shimmerHeight)
             )
         }
+    }
+}
+
+private fun Modifier.applyIf(condition: Boolean, modifier: Modifier.() -> Modifier): Modifier {
+    return if (condition) {
+        this then modifier(this)
+    } else {
+        this
     }
 }

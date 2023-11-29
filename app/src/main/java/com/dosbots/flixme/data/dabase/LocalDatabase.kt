@@ -4,6 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.dosbots.flixme.data.dabase.dao.MoviesDao
+import com.dosbots.flixme.data.dabase.dao.MyMoviesListsDao
+import com.dosbots.flixme.data.dabase.dao.UsersDao
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.MyMoviesList
 import com.dosbots.flixme.data.models.MyMoviesListItem
@@ -21,6 +25,7 @@ import com.dosbots.flixme.data.models.PredefinedListItem
     version = 1,
     exportSchema = false
 )
+@TypeConverters(DatabaseTypeConverters::class)
 abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun usersDao(): UsersDao

@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.google.firebase.firestore.Exclude
 
 @Entity
 data class MyMoviesList(
@@ -11,6 +12,9 @@ data class MyMoviesList(
     val title: String,
     val createdAt: Long,
     val editedAt: Long,
+    val owners: List<String>,
+
+    @Exclude @get:Exclude
     val synced: Boolean = false
 )
 

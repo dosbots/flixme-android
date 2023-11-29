@@ -1,7 +1,7 @@
 package com.dosbots.flixme.data.repository.paging
 
 import com.dosbots.flixme.data.api.movies.MoviesApi
-import com.dosbots.flixme.data.dabase.MoviesDao
+import com.dosbots.flixme.data.dabase.dao.MoviesDao
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.api.PaginatedResponse
 import com.dosbots.flixme.data.models.PredefinedMoviesList

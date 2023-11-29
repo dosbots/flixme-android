@@ -1,12 +1,15 @@
 package com.dosbots.flixme.ui.screens.createlist.steps
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,12 +24,13 @@ import com.dosbots.flixme.R
 import com.dosbots.flixme.ui.communication.UiMessage
 import com.dosbots.flixme.ui.compose.FlixmeTextField
 import com.dosbots.flixme.ui.screens.createlist.CreateListScreenStep
+import com.dosbots.flixme.ui.screens.createlist.ListMovie
 import com.dosbots.flixme.ui.theme.FlixmeUi
+import com.dosbots.flixme.ui.utils.LightAndDarkModePreview
 
 @Composable
 fun ColumnScope.SetListTitleStep(
     stepState: CreateListScreenStep.SetListTitleStep,
-    stepErrorMessage: UiMessage? = null,
     onListTitleSet: (String) -> Unit,
     onErrorMessageShown: () -> Unit
 ) {
@@ -57,7 +61,7 @@ fun ColumnScope.SetListTitleStep(
         label = stringResource(id = R.string.create_list_screen_set_title_step_input_label),
         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
         keyboardActions = KeyboardActions { onListTitleSet(listTitle) },
-        supportingText = stepErrorMessage?.get(LocalContext.current),
+        supportingText = stepState.errorMessage?.get(LocalContext.current),
         modifier = Modifier.fillMaxWidth()
     )
 
@@ -66,7 +70,7 @@ fun ColumnScope.SetListTitleStep(
     )
     Button(
         onClick = {
-            stepErrorMessage?.let { onErrorMessageShown() }
+            stepState.errorMessage?.let { onErrorMessageShown() }
             onListTitleSet(listTitle)
         },
         modifier = Modifier.fillMaxWidth()
@@ -77,5 +81,31 @@ fun ColumnScope.SetListTitleStep(
             ),
             style = FlixmeUi.typography.bodyMedium
         )
+    }
+}
+
+@LightAndDarkModePreview
+@Composable
+private fun SetListTitleStepPreview() {
+    FlixmeUi {
+        Surface(
+            color = FlixmeUi.colorScheme.background
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = FlixmeUi.dimens.lg, vertical = FlixmeUi.dimens.md)
+            ) {
+                SetListTitleStep(
+                    stepState = CreateListScreenStep.SetListTitleStep(
+                        currentTitle = "My awesome list",
+                        errorMessage = UiMessage(
+                            "The title of the list cannot be empty"
+                        )
+                    ),
+                    onListTitleSet = { _ -> },
+                    onErrorMessageShown = {}
+                )
+            }
+        }
     }
 }

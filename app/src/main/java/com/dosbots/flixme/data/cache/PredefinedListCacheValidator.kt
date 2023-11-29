@@ -1,6 +1,6 @@
 package com.dosbots.flixme.data.cache
 
-import com.dosbots.flixme.data.dabase.MoviesDao
+import com.dosbots.flixme.data.dabase.dao.MoviesDao
 import com.dosbots.flixme.data.models.PredefinedMoviesList
 
 class PredefinedListCacheValidator(

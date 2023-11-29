@@ -2,9 +2,9 @@ package com.dosbots.flixme.data.di
 
 import android.content.Context
 import com.dosbots.flixme.data.dabase.LocalDatabase
-import com.dosbots.flixme.data.dabase.MoviesDao
-import com.dosbots.flixme.data.dabase.MyMoviesListsDao
-import com.dosbots.flixme.data.dabase.UsersDao
+import com.dosbots.flixme.data.dabase.dao.MoviesDao
+import com.dosbots.flixme.data.dabase.dao.MyMoviesListsDao
+import com.dosbots.flixme.data.dabase.dao.UsersDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

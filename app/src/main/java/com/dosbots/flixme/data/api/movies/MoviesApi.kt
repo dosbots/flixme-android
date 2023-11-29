@@ -20,4 +20,8 @@ interface MoviesApi {
         @Query("query") query: String,
         @Query("page") page: Int
     ): Response<PaginatedResponse<Movie>>
+
+    companion object {
+        const val MOVIES_API_FIRST_PAGE = 1
+    }
 }

@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.dabase
+package com.dosbots.flixme.data.dabase.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao

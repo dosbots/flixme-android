@@ -4,7 +4,7 @@ import com.dosbots.flixme.data.api.users.UsersApi
 import com.dosbots.flixme.data.authentication.AuthenticationResult
 import com.dosbots.flixme.data.authentication.utils.FakeAuthenticationMethod
 import com.dosbots.flixme.data.authentication.utils.FakeCredentials
-import com.dosbots.flixme.data.dabase.UsersDao
+import com.dosbots.flixme.data.dabase.dao.UsersDao
 import com.dosbots.flixme.data.models.User
 import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations

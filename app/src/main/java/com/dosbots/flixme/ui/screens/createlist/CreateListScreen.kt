@@ -41,6 +41,7 @@ fun CreateListScreen(
         onListTitleSet = { viewModel.setListTitle(it) },
         onAddMoviesStepFinished = { viewModel.finishAddMoviesStep() },
         onSearchMovie = { query -> viewModel.searchMovie(query) },
+        onMovieAddedOrRemoved = { movie -> viewModel.onAddOrRemoveMovieToTheList(movie) },
         onErrorMessageShown = { viewModel.clearErrorMessage() },
         handleBackTap = { viewModel.handleBackButtonTap() },
         navigateToPreviousScreen = navigateBack
@@ -54,6 +55,7 @@ private fun CreateListScreen(
     onListTitleSet: (String) -> Unit,
     onAddMoviesStepFinished: () -> Unit,
     onSearchMovie: (String) -> Unit,
+    onMovieAddedOrRemoved: (ListMovie) -> Unit,
     onErrorMessageShown: () -> Unit,
     handleBackTap: () -> Unit,
     navigateToPreviousScreen: () -> Unit
@@ -85,7 +87,6 @@ private fun CreateListScreen(
             is CreateListScreenStep.SetListTitleStep -> {
                 SetListTitleStep(
                     stepState = state.currentStep,
-                    stepErrorMessage = state.errorMessage,
                     onListTitleSet = onListTitleSet,
                     onErrorMessageShown = onErrorMessageShown
                 )
@@ -94,7 +95,9 @@ private fun CreateListScreen(
                 AddMoviesStep(
                     state = state.currentStep,
                     navigateToNextStep = onAddMoviesStepFinished,
-                    onSearchMovie = onSearchMovie
+                    onSearchMovie = onSearchMovie,
+                    onMovieAddedOrRemoved = onMovieAddedOrRemoved,
+                    onErrorMessageShown = onErrorMessageShown
                 )
             }
         }
@@ -121,7 +124,7 @@ private fun CreateListTopAppBar(
                 modifier = Modifier.clickable { handleBackTap() }
             )
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = FlixmeUi.colorScheme.background
         ),
         modifier = modifier

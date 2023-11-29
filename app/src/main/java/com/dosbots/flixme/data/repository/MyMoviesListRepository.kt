@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.dosbots.flixme.data.api.lists.MyMoviesListApi
-import com.dosbots.flixme.data.dabase.MyMoviesListsDao
+import com.dosbots.flixme.data.dabase.dao.MyMoviesListsDao
 import com.dosbots.flixme.data.models.MyMoviesList
 import com.dosbots.flixme.data.models.MyMoviesListItem
 import com.dosbots.flixme.data.models.MyMoviesListWithMovies
@@ -28,6 +28,7 @@ class MyMoviesListsRepositoryImpl @Inject constructor(
     private val myMoviesListsDao: MyMoviesListsDao,
     private val myMoviesListApi: MyMoviesListApi
 ) : MyMoviesListsRepository {
+
     override suspend fun countMyMoviesList(): Int {
         return myMoviesListsDao.myMoviesListsCount()
     }
@@ -52,7 +53,7 @@ class MyMoviesListsRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
-                prefetchDistance = 10
+                prefetchDistance = 15
             ),
             pagingSourceFactory = {
                 myMoviesListsDao.getMyMoviesListItems(listId = listId)

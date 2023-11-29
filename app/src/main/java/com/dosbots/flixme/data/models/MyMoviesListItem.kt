@@ -3,6 +3,7 @@ package com.dosbots.flixme.data.models
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.Exclude
 
 @Entity(
     primaryKeys = ["listId", "movieId"],
@@ -26,5 +27,7 @@ data class MyMoviesListItem(
     val movieId: Int,
     val watched: Boolean,
     val addedAt: Long,
+
+    @Exclude @get:Exclude
     val synced: Boolean = false
 )

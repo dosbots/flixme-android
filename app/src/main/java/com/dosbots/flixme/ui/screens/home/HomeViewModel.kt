@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.dosbots.flixme.commons.or
 import com.dosbots.flixme.data.models.Movie
 import com.dosbots.flixme.data.models.MyMoviesListWithMovies
 import com.dosbots.flixme.data.repository.MoviesRepository
@@ -46,7 +47,9 @@ class HomeViewModel @Inject constructor(
                 HomeScreenMovie(
                     id = movie.id,
                     title = movie.title,
-                    imageUrl = getFullImageUrl(movie.backdropPath ?: movie.posterPath)
+                    imageUrl = moviesRepository.getMovieFullImagePath(
+                        movie.backdropPath ?: movie.posterPath.orEmpty()
+                    )
                 )
             }
         }
@@ -70,11 +73,6 @@ class HomeViewModel @Inject constructor(
                 MyMoviesListState.HomeScreenMoviesList(listsWithMovies)
             }
         }
-    }
-
-    private fun getFullImageUrl(resource: String): String {
-        // TODO load from configuration API
-        return "https://image.tmdb.org/t/p/w300/$resource"
     }
 }
 

@@ -1,4 +1,4 @@
-package com.dosbots.flixme.data.dabase
+package com.dosbots.flixme.data.dabase.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
@@ -25,6 +25,9 @@ abstract class MoviesDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insertMovies(movies: List<Movie>)
+
+    @Query("SELECT * FROM movies WHERE title LIKE :query")
+    abstract fun searchMovieByTitle(query: String): PagingSource<Int, Movie>
 
     // Predefined lists table methods
 

@@ -34,6 +34,8 @@
     <string name="create_list_screen_add_movies_step_search_input_placeholder">E.g.: The godfather</string>
     <string name="create_list_screen_add_movies_step_search_input_label">Search by movie title</string>
     <string name="create_list_screen_add_movies_step_cta">Continue</string>
+    <string name="create_list_screen_add_movies_step_search_movies_list_add_movie_cta">Add</string>
+    <string name="create_list_screen_add_movies_step_search_movies_list_remove_movie_cta">Remove</string>
 
 
 </resources>
