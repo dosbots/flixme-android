@@ -2,6 +2,7 @@ package com.dosbots.flixme.ui.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -24,11 +25,7 @@ import com.dosbots.flixme.ui.theme.FlixmeUi
 @Composable
 fun ShimmerAsyncImage(
     imageUrl: String,
-    shimmerHeight: Dp,
-    shimmerWidth: Dp,
-    modifier: Modifier = Modifier,
-    imageWidth: Dp = Dp.Unspecified,
-    imageHeight: Dp = Dp.Unspecified
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier,
@@ -39,12 +36,7 @@ fun ShimmerAsyncImage(
             model = imageUrl,
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .applyIf(imageWidth.isUnspecified) { fillMaxWidth() }
-                .applyIf(imageWidth.isUnspecified.not()) { width(imageWidth) }
-                .applyIf(imageHeight.isUnspecified) { fillMaxHeight() }
-                .applyIf(imageHeight.isUnspecified.not()) { height(imageHeight) }
-                .clip(FlixmeUi.shapes.large),
+            modifier = Modifier.fillMaxSize(),
             onState = { state ->
                 when(state) {
                     is AsyncImagePainter.State.Loading -> {
@@ -64,18 +56,8 @@ fun ShimmerAsyncImage(
         )
         if (loadingInProgress) {
             ShimmerBoxLoading(
-                modifier = Modifier
-                    .width(shimmerWidth)
-                    .height(shimmerHeight)
+                modifier = Modifier.fillMaxSize()
             )
         }
-    }
-}
-
-private fun Modifier.applyIf(condition: Boolean, modifier: Modifier.() -> Modifier): Modifier {
-    return if (condition) {
-        this then modifier(this)
-    } else {
-        this
     }
 }

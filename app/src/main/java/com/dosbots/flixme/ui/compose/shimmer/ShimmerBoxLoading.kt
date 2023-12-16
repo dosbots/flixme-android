@@ -15,7 +15,6 @@ fun ShimmerBoxLoading(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(FlixmeUi.dimens.md))
             .shimmer(color = color)
     )
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -39,6 +41,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.dosbots.flixme.R
+import com.dosbots.flixme.ui.compose.ImageCollage
 import com.dosbots.flixme.ui.compose.ShimmerAsyncImage
 import com.dosbots.flixme.ui.compose.shimmer.ShimmerBoxLoading
 import com.dosbots.flixme.ui.theme.FlixmeUi
@@ -86,6 +89,9 @@ private fun HomeScreen(
                 )
             )
         },
+        floatingActionButton = {
+
+        },
         modifier = modifier
     ) { paddingValues ->
         Column(
@@ -100,12 +106,12 @@ private fun HomeScreen(
             )
             Spacer(modifier = Modifier.height(FlixmeUi.dimens.lg))
             MoviesScrollableRow(
-                title = "Popular movies",
+                title = stringResource(id = R.string.home_screen_popular_movies),
                 movies = popularMoviesState.collectAsLazyPagingItems()
             )
             Spacer(modifier = Modifier.height(FlixmeUi.dimens.lg))
             MoviesScrollableRow(
-                title = "Top rated movies",
+                title = stringResource(id = R.string.home_screen_top_rated_movies),
                 movies = topRatedMoviesState.collectAsLazyPagingItems()
             )
         }
@@ -150,9 +156,46 @@ private fun MyListsOfMoviesScrollableRow(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(FlixmeUi.dimens.md)
                 ) {
-
+                    items(myMoviesLists.lists) { list ->
+                        MyMoviesListItem(list = list)
+                    }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun MyMoviesListItem(
+    modifier: Modifier = Modifier,
+    list: HomeScreenListOfMovies
+) {
+    Card(
+        shape = FlixmeUi.shapes.large,
+        colors = CardDefaults.cardColors(containerColor = FlixmeUi.colorScheme.surface)
+    ) {
+        Column(
+            horizontalAlignment = CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = modifier
+                .width(movieListItemWidth)
+                .padding(FlixmeUi.dimens.md)
+        ) {
+            ImageCollage(
+                imagesUrls = list.urls,
+                modifier = Modifier
+                    .width(movieListItemWidth)
+                    .height(movieImageHeight)
+            )
+            Spacer(
+                modifier = Modifier.height(FlixmeUi.dimens.md)
+            )
+            Text(
+                text = list.title,
+                style = FlixmeUi.typography.bodyLarge,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
+            )
         }
     }
 }
@@ -273,11 +316,13 @@ private fun MovieItem(
         ) {
             ShimmerAsyncImage(
                 imageUrl = movie.imageUrl,
-                shimmerHeight = movieImageHeight,
-                shimmerWidth = movieListItemWidth
+                modifier = Modifier
+                    .height(movieImageHeight)
+                    .width(movieListItemWidth)
+                    .clip(FlixmeUi.shapes.large)
             )
             Spacer(
-                modifier = Modifier.height(FlixmeUi.dimens.sm)
+                modifier = Modifier.height(FlixmeUi.dimens.md)
             )
             Text(
                 text = movie.title,

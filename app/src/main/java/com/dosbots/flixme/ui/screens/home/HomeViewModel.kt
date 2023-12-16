@@ -67,7 +67,11 @@ class HomeViewModel @Inject constructor(
                         urls = it.items
                             .sortedBy { item -> item.listItem.addedAt }
                             .take(HOME_SCREEN_MY_LISTS_COUNT)
-                            .map { item -> item.movie.backdropPath.orEmpty() }
+                            .map { item ->
+                                moviesRepository.getMovieFullImagePath(
+                                    item.movie.backdropPath ?: item.movie.posterPath.orEmpty()
+                                )
+                            }
                     )
                 }
                 MyMoviesListState.HomeScreenMoviesList(listsWithMovies)

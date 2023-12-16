@@ -38,6 +38,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
@@ -270,10 +271,10 @@ private fun ListMovieItem(
     ) {
         ShimmerAsyncImage(
             imageUrl = movie.image,
-            imageHeight = 180.dp,
-            imageWidth = 120.dp,
-            shimmerHeight = 180.dp,
-            shimmerWidth = 120.dp
+            modifier = Modifier
+                .width(120.dp)
+                .height(180.dp)
+                .clip(FlixmeUi.shapes.large)
         )
         Spacer(modifier = Modifier.width(FlixmeUi.dimens.md))
         Column(
